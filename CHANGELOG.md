@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-07-07
+
+### Changed
+
+- Release automation: a green `main` now auto-tags `vX.Y.Z` from the version
+  line in `src/Version.php` (Packagist ingests the tag), so bumping that line and
+  merging is the entire release ritual. Documented in `PUBLISHING.md`.
+
 ## [0.1.0] - 2026-07-05
 
 Initial release — the official PHP SDK for the NombaOne subscription-billing API.
@@ -53,5 +61,6 @@ Initial release — the official PHP SDK for the NombaOne subscription-billing A
   returns the attached payment method, not the subscription — the OpenAPI spec is
   wrong here). Caught by the full-surface verifier before release.
 
-[Unreleased]: https://github.com/nombaone/nombaone-php/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/nombaone/nombaone-php/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/nombaone/nombaone-php/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/nombaone/nombaone-php/releases/tag/v0.1.0
