@@ -23,7 +23,7 @@ final class Version
      * it (see PUBLISHING.md). It is also the runtime fallback when the SDK is run
      * from source with no installed tag.
      */
-    public const FALLBACK = '0.1.1';
+    public const FALLBACK = '0.1.2';
 
     private function __construct()
     {

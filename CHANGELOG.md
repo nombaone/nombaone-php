@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.2] - 2026-07-07
+
+### Changed
+
+- When no PSR-17/PSR-18 HTTP implementation can be auto-discovered, the client
+  now throws a clear `NombaOneException` telling you to install one (e.g.
+  `composer require guzzlehttp/guzzle`) or pass your own, instead of surfacing
+  php-http/discovery's cryptic `DiscoveryFailedException`.
+
 ## [0.1.1] - 2026-07-07
 
 ### Changed
@@ -61,6 +70,7 @@ Initial release — the official PHP SDK for the NombaOne subscription-billing A
   returns the attached payment method, not the subscription — the OpenAPI spec is
   wrong here). Caught by the full-surface verifier before release.
 
-[Unreleased]: https://github.com/nombaone/nombaone-php/compare/v0.1.1...HEAD
+[Unreleased]: https://github.com/nombaone/nombaone-php/compare/v0.1.2...HEAD
+[0.1.2]: https://github.com/nombaone/nombaone-php/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/nombaone/nombaone-php/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/nombaone/nombaone-php/releases/tag/v0.1.0

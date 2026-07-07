@@ -283,7 +283,10 @@ final class Nombaone
             return $factory;
         }
 
-        return Psr17FactoryDiscovery::findRequestFactory();
+        return $this->discover(
+            static fn (): RequestFactoryInterface => Psr17FactoryDiscovery::findRequestFactory(),
+            'PSR-17 request factory',
+        );
     }
 
     private function resolveStreamFactory(mixed $factory): StreamFactoryInterface
@@ -292,7 +295,10 @@ final class Nombaone
             return $factory;
         }
 
-        return Psr17FactoryDiscovery::findStreamFactory();
+        return $this->discover(
+            static fn (): StreamFactoryInterface => Psr17FactoryDiscovery::findStreamFactory(),
+            'PSR-17 stream factory',
+        );
     }
 
     /**
@@ -312,13 +318,45 @@ final class Nombaone
         $responseFactory = $options['responseFactory'] ?? null;
         $responseFactory = $responseFactory instanceof ResponseFactoryInterface
             ? $responseFactory
-            : Psr17FactoryDiscovery::findResponseFactory();
+            : $this->discover(
+                static fn (): ResponseFactoryInterface => Psr17FactoryDiscovery::findResponseFactory(),
+                'PSR-17 response factory',
+            );
 
         try {
             return new CurlHttpClient($responseFactory, $streamFactory);
         } catch (ConnectionException) {
             // No cURL — fall back to a discovered PSR-18 client.
-            return new Psr18HttpClient(Psr18ClientDiscovery::find());
+            return new Psr18HttpClient($this->discover(
+                static fn (): ClientInterface => Psr18ClientDiscovery::find(),
+                'PSR-18 HTTP client',
+            ));
+        }
+    }
+
+    /**
+     * Run a php-http/discovery lookup, turning its cryptic failure into an
+     * actionable {@see NombaOneException} telling the developer exactly what to
+     * install.
+     *
+     * @template T of object
+     *
+     * @param callable(): T $discover
+     *
+     * @return T
+     */
+    private function discover(callable $discover, string $what): object
+    {
+        try {
+            return $discover();
+        } catch (\Http\Discovery\Exception\NotFoundException | \Http\Discovery\Exception\DiscoveryFailedException $e) {
+            throw new NombaOneException(
+                "No {$what} could be auto-discovered. The NombaOne SDK needs a PSR-17/PSR-18 HTTP "
+                . 'stack — install one (e.g. `composer require guzzlehttp/guzzle`), or pass your own '
+                . 'via the httpClient / requestFactory / streamFactory options.',
+                0,
+                $e,
+            );
         }
     }
 }
