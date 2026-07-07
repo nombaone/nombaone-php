@@ -1,0 +1,8 @@
+parameters:
+    level: max
+    # Enforce the SDK's supported floor (PHP 8.2) regardless of the local runtime.
+    phpVersion: 80200
+    paths:
+        - src
+        - tests
+    treatPhpDocTypesAsCertain: false

@@ -1,0 +1,20 @@
+# Composer — a library commits neither vendor/ nor its lock file.
+/vendor/
+/composer.lock
+
+# Tool caches
+/.php-cs-fixer.cache
+/.phpunit.result.cache
+/.phpunit.cache/
+/build/
+/.phpstan.cache/
+
+# Editors / OS
+/.idea/
+/.vscode/
+*.log
+.DS_Store
+
+# Never commit secrets or local env
+.env
+.env.*
