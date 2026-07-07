@@ -17,7 +17,12 @@ use Composer\InstalledVersions;
  */
 final class Version
 {
-    /** Dev fallback used only when no installed tag is available (running from source). */
+    /**
+     * The version this source tree represents. Bumping this line and merging to
+     * `main` is the release ritual: CI tags `v{FALLBACK}` and Packagist ingests
+     * it (see PUBLISHING.md). It is also the runtime fallback when the SDK is run
+     * from source with no installed tag.
+     */
     public const FALLBACK = '0.1.0';
 
     private function __construct()

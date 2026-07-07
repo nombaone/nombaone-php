@@ -50,3 +50,40 @@ jobs:
 
       - name: Unit & conformance tests
         run: composer test
+
+  # Merge-triggered release: when `main` is green and src/Version.php names a
+  # version with no matching tag yet, push `vX.Y.Z`. Packagist ingests the tag
+  # via its webhook. Bumping the version line and merging is the whole ritual;
+  # a merge that doesn't bump the version is a no-op.
+  tag:
+    name: Auto-tag release
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Read version from src/Version.php
+        id: version
+        run: |
+          VERSION=$(grep -oE "FALLBACK = '[0-9]+\.[0-9]+\.[0-9]+'" src/Version.php | grep -oE "[0-9]+\.[0-9]+\.[0-9]+")
+          if [ -z "$VERSION" ]; then
+            echo "::error::Could not read a version from src/Version.php" && exit 1
+          fi
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Create and push tag if new
+        run: |
+          TAG="v${{ steps.version.outputs.version }}"
+          if git ls-remote --tags origin "refs/tags/${TAG}" | grep -q .; then
+            echo "Tag ${TAG} already exists — no release."
+            exit 0
+          fi
+          echo "Releasing ${TAG}"
+          git tag "${TAG}"        # lightweight tag: no tagger identity recorded
+          git push origin "${TAG}"

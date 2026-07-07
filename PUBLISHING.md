@@ -44,24 +44,29 @@ That's the whole setup. No API token ever lives on a laptop or in CI.
    ```
 
    Read the last line — it must say `… DEFECTS 0`.
-3. Update `CHANGELOG.md` with the new version, and (optionally) bump the
-   `FALLBACK` line in `src/Version.php` to match — the **git tag is the real
-   version**, so this is only cosmetic for people installing from source.
-4. **Tag and push:**
+3. **Bump the one version line** in `src/Version.php`:
 
-   ```bash
-   git tag v0.1.0
-   git push origin main --tags
+   ```php
+   public const FALLBACK = '0.2.0';   // was '0.1.0'
    ```
 
-That's it. Packagist ingests the tag automatically. `composer require
-nombaone/nombaone-php` now resolves the new version.
+   and add the matching entry to `CHANGELOG.md`.
+4. **Merge to `main`.** That's the whole ritual.
 
-- **A merge to `main` with no new tag publishes nothing.** Only a tag releases.
-- **Re-tagging an existing version is impossible** — git rejects a duplicate
-  tag, so you can never accidentally overwrite a release.
-- **Versions are semver.** Start at `v0.1.0`; bug fixes bump the patch (`v0.1.1`),
-  new methods bump the minor (`v0.2.0`), breaking changes bump the major.
+When `main` goes green, CI reads that version line and — if no `v0.2.0` tag
+exists yet — creates and pushes it for you (`.github/workflows/ci.yml`, the
+`tag` job). Packagist ingests the new tag via its webhook within seconds.
+`composer require nombaone/nombaone-php` then resolves the new version. No
+manual tagging, no tokens, no laptop uploads.
+
+- **A merge that doesn't change the version line is a no-op** — the tag already
+  exists, so CI releases nothing.
+- **Re-releasing a version is impossible** — the tag already exists and git
+  never overwrites it.
+- **Versions are semver.** Bug fixes bump the patch (`0.1.1`), new methods the
+  minor (`0.2.0`), breaking changes the major.
+- Want to cut a tag by hand instead? `git tag v0.2.0 && git push origin v0.2.0`
+  does the same thing; the CI job just automates it.
 
 ---
 
