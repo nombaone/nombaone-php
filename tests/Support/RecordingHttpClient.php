@@ -111,7 +111,7 @@ final class RecordingHttpClient implements HttpClient
             'error' => array_merge([
                 'message' => 'Something went wrong',
                 'hint' => 'Try again.',
-                'docUrl' => 'https://docs.nombaone.com/errors#' . $error['code'],
+                'docUrl' => 'https://docs.nombaone.xyz/errors#' . $error['code'],
             ], $error),
             'meta' => ['requestId' => 'req_test'],
         ];

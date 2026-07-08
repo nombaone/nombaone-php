@@ -65,7 +65,7 @@ final class ErrorsTest extends TestCase
             'code' => 'CUSTOMER_NOT_FOUND',
             'message' => 'No customer with that id',
             'hint' => 'Check the id and that your key matches the environment.',
-            'docUrl' => 'https://docs.nombaone.com/errors#CUSTOMER_NOT_FOUND',
+            'docUrl' => 'https://docs.nombaone.xyz/errors#CUSTOMER_NOT_FOUND',
         ]);
 
         try {
@@ -74,7 +74,7 @@ final class ErrorsTest extends TestCase
         } catch (NotFoundException $e) {
             $this->assertSame(ErrorCode::CUSTOMER_NOT_FOUND, $e->errorCode);
             $this->assertSame('Check the id and that your key matches the environment.', $e->hint);
-            $this->assertSame('https://docs.nombaone.com/errors#CUSTOMER_NOT_FOUND', $e->docUrl);
+            $this->assertSame('https://docs.nombaone.xyz/errors#CUSTOMER_NOT_FOUND', $e->docUrl);
             $this->assertStringContainsString('No customer with that id', $e->getMessage());
             $this->assertStringContainsString($e->hint, $e->getMessage());
             $this->assertSame('req_test', $e->requestId);

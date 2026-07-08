@@ -10,7 +10,7 @@ Requires PHP 8.2+ and any [PSR-18](https://www.php-fig.org/psr/psr-18/) HTTP cli
 
 ## Quickstart
 
-Grab a sandbox key (`nbo_sandbox_…`) from the [dashboard](https://app.nombaone.xyz), set it as `NOMBAONE_API_KEY`, and you are three objects away from a live subscription:
+Grab a sandbox key (`nbo_sandbox_…`) from the [dashboard](https://console.nombaone.xyz), set it as `NOMBAONE_API_KEY`, and you are three objects away from a live subscription:
 
 ```php
 use NombaOne\Nombaone;

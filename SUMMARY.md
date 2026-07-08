@@ -55,8 +55,8 @@ emitting `[]` for an empty map."*
 ## Known backend quirks confirmed live
 
 1. `mode` is `sandbox`/`live` on the wire (spec says `test`/`live`) — typed as strings.
-2. Error `docUrl` is served from `docs.nombaone.com` — passed through verbatim
-   (observed: `https://docs.nombaone.com/errors#CUSTOMER_NOT_FOUND`).
+2. Error `docUrl` is served from `docs.nombaone.xyz` — passed through verbatim
+   (observed: `https://docs.nombaone.xyz/errors#CUSTOMER_NOT_FOUND`).
 3. Creates return **201**; the SDK treats any 2xx as success.
 4. Idempotency replay (same key + same body) returns the original resource id —
    verified live.
